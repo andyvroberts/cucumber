@@ -1,4 +1,5 @@
 import pandas as pd
+import arcgis
 from arcgis import GIS
 from arcgis.features import FeatureLayerCollection, Table, FeatureCollection, FeatureLayer, FeatureSet
 
@@ -10,5 +11,6 @@ data_table = Table.fromitem(item)
 
 data_frame = data_table.query(as_df=True)
 
+aa = arcgis.features.Table.
 
 

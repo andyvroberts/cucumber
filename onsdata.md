@@ -223,6 +223,42 @@ The same CSV collection we were searching for in Method 2 is in row 5.
 item = gc.content.get('60484ad9611249b59f3644e92f37476d')
 ```
 
+```
+what = "title: National Statistics Postcode Lookup (August 2022)"
+res_list = gc.content.advanced_search(query=what, max_items=20)
+
+>>> for s in res_list['results']:
+...     print(s)
+... 
+<Item title:"National Statistics Postcode Lookup (August 2022) User Guide" type:CSV Collection owner:ONSGeography_data>
+<Item title:"National Statistics Postcode Lookup - 2011 Census (August 2022)" type:CSV Collection owner:ONSGeography_data>
+<Item title:"National Statistics Postcode Lookup - 2021 Census (August 2022)" type:CSV Collection owner:ONSGeography_data>
+<Item title:"National Statistics UPRN Lookup 2021 User Guide (August 2022)" type:CSV Collection owner:ONSGeography_data>
+<Item title:"National Statistics UPRN Lookup User Guide (August 2022)" type:CSV Collection owner:ONSGeography_data>
+
+item = res_list['results'][2]
+
+>>> item
+<Item title:"National Statistics Postcode Lookup - 2021 Census (August 2022)" type:CSV Collection owner:ONSGeography_data>
+
+tb = Table.fromitem(item)
+Traceback (most recent call last):
+  File "/home/avr/projects/cucumber/.venv/cucumber/lib/python3.9/site-packages/arcgis/gis/__init__.py", line 11448, in __getitem__
+    return dict.__getitem__(self, k)
+KeyError: 'tables'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/avr/projects/cucumber/.venv/cucumber/lib/python3.9/site-packages/arcgis/features/layer.py", line 3362, in fromitem
+    return item.tables[table_id]
+  File "/home/avr/projects/cucumber/.venv/cucumber/lib/python3.9/site-packages/arcgis/gis/__init__.py", line 11422, in __getattribute__
+    if self["tables"] == None or self["tables"] == []:
+  File "/home/avr/projects/cucumber/.venv/cucumber/lib/python3.9/site-packages/arcgis/gis/__init__.py", line 11452, in __getitem__
+    return dict.__getitem__(self, k)
+KeyError: 'tables'
+```
 ..
 
 
