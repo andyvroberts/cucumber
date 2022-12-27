@@ -150,6 +150,79 @@ The correct CSV collection is at index postion 7.
 <Item title:"Postcode to Output Area Hierarchy with Classifications (August 2022) Lookup in the UK" type:CSV Collection owner:ONSGeography_data> 
 ```
 
+### Advanced Search
+How many datasets does the ONS publish?
+```
+ons = "owner: ONSGeography_data"
+gc = GIS()
+count = gc.content.advanced_search(query=ons, return_count=True)
+```
+
+Search results expanded form.
+```
+res = gc.content.advanced_search(query=ons, max_items=20)
+```
+This adds additional metadata to the return result, with the actual search list as a dict within.
+```
+>>> res
+{
+'total': 4946, 
+'start': 1, 
+'num': 20, 
+'nextStart': 21, 
+'results': [
+     <Item title:"1 no poverty" type:Hub Page owner:ONSGeography_data>, 
+     <Item title:"10 reduced inequalities" type:Hub Page owner:ONSGeography_data>, 
+     ...
+     <Item title:"11 sustainable cities and communities" type:Hub Page owner:ONSGeography_data>, 
+     <Item title:"7_Affordable" type:Image owner:ONSGeography_data>]
+}
+```
+Return search results list in a dict format.
+```
+res = gc.content.advanced_search(query=ons, max_items=3, as_dict=True)
+
+>>> print(res['results'][0])
+{'id': '8de0665a43d148adaa2719387c5be9b5', 'owner': 'ONSGeography_data', 'created': 1511264803000, 'modified': 1512140472000, 'guid': None, 'name': None, 'title': '1 no poverty', 'type': 'Hub Page', 'typeKeywords': ['Hub', 'hubPage', 'JavaScript', 'Map', 'Mapping Site', 'Online Map', 'OpenData', 'selfConfigured', 'Web Map'], 'description': 'DO NOT DELETE OR MODIFY THIS ITEM. This item is managed by the ArcGIS Hub application. To make changes to this page, please visit https://hub.arcgis.com/admin/sites/ccf237e81cdd49778b679f2fcda07038/pages', 'tags': [], 'snippet': 'null', 'thumbnail': 'thumbnail/ago_downloaded.png', 'documentation': None, 'extent': [], 'categories': [], 'spatialReference': 'null', 'accessInformation': 'null', 'licenseInfo': 'null', 'culture': 'en-us', 'properties': None, 'advancedSettings': None, 'url': 'https://opendata.arcgis.com/admin/', 'proxyFilter': None, 'access': 'public', 'size': -1, 'subInfo': 0, 'appCategories': [], 'industries': [], 'languages': [], 'largeThumbnail': None, 'banner': None, 'screenshots': [], 'listed': False, 'numComments': 0, 'numRatings': 0, 'avgRating': 0, 'numViews': 237, 'scoreCompleteness': 61, 'groupDesignations': None, 'lastViewed': -1}
+```
+Search for a type of resource.
+```
+needed = "Table Layer"
+res = gc.content.search(query=ons, item_type=needed, max_items=3)
+```
+
+Perform a search and convert the results into a Pandas dataframe.  Note: the scan variable must have the title as the first parameter or the search will return None.  
+```
+what = "title: (August 2022)"
+scan = f'{what}, {ons}'
+res_list = gc.content.advanced_search(query=scan, max_items=8, as_dict=True)['results']
+
+resdf = pd.DataFrame(res_list)
+
+>>> resdf['type'].value_counts()
+CSV Collection    2
+PDF               1
+Name: type, dtype: int64
+
+pd.set_option('max_colwidth', 250)
+viewable = ['id','title','owner','type','access', 'url']
+
+>>> resdf[viewable]
+                                 id                                                                    title              owner            type  access
+0  753037189b874508bfbbfca6fc90219c               Code History Database (August 2022) for the United Kingdom  ONSGeography_data  CSV Collection  public
+1  d250dad5c9194cfcbd0975a659708188  Hierarchical Representation of UK Statistical Geographies (August 2022)  ONSGeography_data             PDF  public
+2  be4a7ec642bb463886ab755ab29d103b             National Statistics Postcode Lookup (August 2022) User Guide  ONSGeography_data  CSV Collection  public
+3  b1e0efef9de04859bc2a06146b0b57e2          National Statistics Postcode Lookup - 2011 Census (August 2022)  ONSGeography_data  CSV Collection  public
+4  60484ad9611249b59f3644e92f37476d          National Statistics Postcode Lookup - 2021 Census (August 2022)  ONSGeography_data  CSV Collection  public
+5  f731ed5b45874cfdbd24089b7ca07743                            National Statistics UPRN Lookup (August 2022)  ONSGeography_data  CSV Collection  public
+6  13bf05e8b9bd4999bce0a5618b6fc89d            National Statistics UPRN Lookup 2021 User Guide (August 2022)  ONSGeography_data  CSV Collection  public
+7  e420e2b384d749d795bea8d7be298ba3               National Statistics UPRN Lookup OA21 version (August 2022)  ONSGeography_data  CSV Collection  public
+```
+The same CSV collection we were searching for in Method 2 is in row 5.
+```
+item = gc.content.get('60484ad9611249b59f3644e92f37476d')
+```
+
 ..
 
 
