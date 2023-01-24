@@ -11,6 +11,5 @@ data_table = Table.fromitem(item)
 
 data_frame = data_table.query(as_df=True)
 
-aa = arcgis.features.Table.
 
 
