@@ -24,7 +24,7 @@ def controller():
     file_suff = conf['NSPL']['FileExtension']
 
     #response_zip = requests.get(url)
-    file_path = r'/home/avrob/downloads/nspl.zip'
+    file_path = r'/home/avrob/downloads/nspl2.zip'
 
     #with zipfile.ZipFile(io.BytesIO(response_zip.content)) as zips:
     with zipfile.ZipFile(file_path) as zips:
@@ -45,8 +45,8 @@ def controller():
             for pcode_line in pc_file:
                 pcode_count += 1
                 pc_rec = pcode_line.split(',')
-                postcode_col = pc_rec[2]
-                laua_col = pc_rec[12]
+                postcode_col = pc_rec[2].strip('"')
+                laua_col = pc_rec[12].strip('"')
 
                 if postcode_col in pc_dict:
                     if laua_col not in pc_dict[postcode_col]:
@@ -55,12 +55,12 @@ def controller():
                 else:
                     pc_dict[postcode_col].append(laua_col)
 
-            
+
     print(f'postcode count = {pcode_count}')
-    for item in pc_dict:
-        print(item)
-        break
-    
+
+    for e in pc_dict:
+        if len(pc_dict[e]) > 1:
+            print(f'{e} = {pc_dict[e]}')
 
 
 
