@@ -17,7 +17,7 @@ def read_zip_data():
         Args:
             Return: a tuple (postcode dict, laua dict)
     """
-    log = logging.getLogger("postcode_local_authority_map")
+    log = logging.getLogger("nspl.political_geo.read_zip_data")
     logging.getLogger("urllib3.connectionpool").setLevel(logging.ERROR)
 
     pcode_count = 0
@@ -78,8 +78,7 @@ def postcode_local_authority_map():
         Args:
             Return: a list of tuples, aprrox. 2.2 million postcodes
     """
-    log = logging.getLogger("postcode_local_authority_map")
-    logging.getLogger("urllib3.connectionpool").setLevel(logging.ERROR)
+    log = logging.getLogger("nspl.political_geo.postcode_local_authority_map")
 
     la_dict, pc_dict = read_zip_data() 
 
@@ -112,8 +111,7 @@ def postcode_local_authority_search(postcode_list):
         Args:
             Return: a list dicts - postcode with its local authority name
     """
-    log = logging.getLogger("postcode_local_authority_map")
-    logging.getLogger("urllib3.connectionpool").setLevel(logging.ERROR)
+    log = logging.getLogger("nspl.political_geo.postcode_local_authority_search")
 
     la_dict, pc_dict = read_zip_data() 
 

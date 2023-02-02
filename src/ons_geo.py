@@ -3,6 +3,7 @@ import time
 import logging
 import argparse
 from nspl import political_geo
+from writer import local
 
 #------------------------------------------------------------------------------
 def controller(args):
@@ -43,7 +44,7 @@ def parse_command_line():
 
     par_pcode = subpars.add_parser('postcode', help='postcode processing')
     par_pcode.add_argument('mapping', choices=["laua"], help='type of mapping to apply to postcodes')
-    par_pcode.add_argument('searched', type=str, help='a list of postcodes to search for within the mapping')
+    par_pcode.add_argument('searched', type=str, nargs='?', help='a list of postcodes to search for within the mapping')
 
     par_health = subpars.add_parser('health', help='health authority processing')
     par_health.add_argument('mapping', choices=["county"], help='type of mapping to apply to health authorities')
