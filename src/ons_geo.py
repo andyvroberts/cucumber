@@ -3,7 +3,8 @@ import time
 import logging
 import argparse
 from nspl import political_geo
-from writer import local
+from writer import local as local_writer
+from compression import parquet_geo
 
 #------------------------------------------------------------------------------
 def controller(args):
@@ -18,7 +19,7 @@ def controller(args):
             print(pc_la_map)
         else:
             pc_la_map = political_geo.postcode_local_authority_map()
-            print(pc_la_map[1])
+            parquet_geo.postcode_local_authority_map(pc_la_map, local_writer)
 
 
     end_exec = time.time()
